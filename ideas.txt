@@ -1,0 +1,5 @@
+Liveshare link: https://prod.liveshare.vsengsaas.visualstudio.com/join?6255201942368FAABDDE9D268F4BAF85F90D
+
+1) Resume building app = ask information about the user
+
+2) 
