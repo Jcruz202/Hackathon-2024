@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Start Screen</title>
         <link rel="stylesheet" href="style.css">
-        <script src="https://kit.fontawesome.com/533356cf2f.js" crossorigin="anonymous"></script>
+        <!-- <script src="https://kit.fontawesome.com/533356cf2f.js" crossorigin="anonymous"></script> -->
     </head>
 
     <body>
@@ -46,11 +46,17 @@
         </div>
         
             <!-- "About Us" section -->
-        <div id="about-us">
+        <div class="about-us">
             <section id="about-section">
-                <h2>About Us</h2>
-                <p>This website is for our hackathon spring 2024.<br>
-                Our names are Braulio Duran, Charlie Esquivel, Juan Cruz, Jovany Martinez, and Steven Reveles</p>
+                <h2 id="text-about-us">About Us</h2>
+                <div class="image-container">
+                    <div class="circular-mask">
+                      <img id="current-image" src="juan_cruz.jpg" alt="Image 1">
+                    </div>
+                    <div class="text-box">Juan Cruz</div>
+                  </div>
+                  
+                  <button id="next-button" onclick="nextImage()">Next</button>
             </section>
         </div>
         

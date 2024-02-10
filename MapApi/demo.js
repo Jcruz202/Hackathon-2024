@@ -44,7 +44,7 @@ function browseGeocode(platform, at) {
   function createUIforDropdown() {
     
     var subTitle = document.createElement('p');
-    subTitle.innerHTML= "Choose a City below";
+    subTitle.innerHTML= "Choose station type";
     discoveryTitleContainer.appendChild(subTitle);
   
     var cityDropdown = document.createElement("SELECT");
