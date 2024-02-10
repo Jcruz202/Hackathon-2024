@@ -4,5 +4,11 @@ API link: https://ip-api.com/docs
 Green Stations
 - solar charging Stations
 - recycling
-bike Stations
--EV Charging stations
+- bike Stations
+- EV Charging stations
+
+weather app: https://github.com/Jcruz202/Weather-App
+
+personal website: https://github.com/Jcruz202/Juan_Cruz_Personal_Portfolio_Website
+
+hackathon prompt: https://pebble-snowstorm-059.notion.site/SparkHacks-Tracks-7cddf6f4edd343bc85cabee3ba18f6f7
