@@ -21,3 +21,5 @@ Code
 
 There is a main html file titled 'start.html' and this is the main website that includes an about us page and 
 access to our map displaying the locations of the green stations. 
+
+This website is published and you can access it by going to this link: https://jcruz202.github.io/Hackathon-2024/start.html
