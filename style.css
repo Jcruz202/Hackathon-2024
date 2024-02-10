@@ -43,7 +43,7 @@ html{
     width: 100%;
     height: 100%;
     object-fit: cover;
-    height: 100vh;
+    height: 100%;
     z-index: -1; /* Ensure the video is behind other content */
 }
 
@@ -69,7 +69,7 @@ html{
 
 #idea{
     text-align: center;
-    font-size: 22px;
+    font-size: 23px;
     color: white;
     font-family: 'Garet', sans-serif;
     padding-right: 50%;
@@ -79,7 +79,7 @@ html{
 
 #arrow-btn img {
     width: 200px;
-    height: 150px;
+    height: 179px;
     margin-left: 25%;
     padding-top: 10px;
 }
@@ -89,7 +89,7 @@ html{
   background-image: url('aboutUsBackground.png');
   background-size: cover;
   /* overflow: hidden; */
-  height: 100vh;
+  height: 100%;
 }
 
 #about-sentence{
@@ -103,6 +103,15 @@ html{
     /* background-position: center; */
     background-attachment: fixed;
     padding: 50px; /* Adjust padding as needed */
+}
+
+#text-about-us{
+  font-size: 80px;
+  color: white;
+  text-align: center;
+  padding-left: 8%;
+  font-family: 'Garet', sans-serif;
+
 }
 
 #about-section {
@@ -125,12 +134,12 @@ html{
 }
 
 .image-container {
-  margin-top: 180px; /* Adjust the top margin */
+  margin-top:  3%; /* Adjust the top margin */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 25px;
-  padding-left: 150px;
+  padding: 5%;
+  padding-left: 15%;
   border-radius: 10px;
 }
 .circular-mask {
@@ -138,7 +147,7 @@ html{
   height: 310px; /* Set the height to 300px */
   border-radius: 50%; /* Make it circular */
   overflow: hidden; /* Hide overflow */
-  margin-bottom: 30px; /* Adjust the bottom margin */
+  margin-bottom: 5%; /* Adjust the bottom margin */
 }
 
 img {
@@ -153,12 +162,21 @@ img.rotate {
 }
 
 .text-box {
-  margin-top: 10px;
   font-size: 40px; /* Increase font size */
   color: white; /* Set text color to white */
+  font-family: 'Garet', sans-serif;
+
 }
+
+.about-descriptor{
+  font-size: 2px;
+  font-family: 'Garet', sans-serif;
+  color: white;
+  padding-top: 10%;
+}
+
 #next-button {
-  margin-top: 20px;
+  margin-left: 52.5%;
   padding: 10px 20px;
   font-size: 16px;
   background-color: #3498db; /* Blue background */
@@ -169,4 +187,5 @@ img.rotate {
 }
 #next-button:hover {
   background-color: #2980b9; /* Darker blue on hover */
+
 }
