@@ -1,4 +1,6 @@
-async function browseGeocode(platform, at, station) {
+var defaultStation = 'EV';
+
+function browseGeocode(platform, at, station) {
   var geocoder = platform.getSearchService();
   var browseParameters = {
     at: at,
@@ -8,71 +10,11 @@ async function browseGeocode(platform, at, station) {
 
   if (station == 'EV') {
     browseParameters.q = 'EV Charging Station';
-  } 
-  else if (station == 'Bike') {
+  } else if (station == 'Bike') {
     browseParameters.q = 'Bicycle Sharing Location';
   }
-  else if (station == 'Solar_Charger') {
-    try {
-      // Read charger coordinates from CSV file asynchronously
-      const chargerCoordinates = await readCoordinatesFromCSV('location.csv', 'solar_charger');
-      if (chargerCoordinates) {
-        browseParameters.at = chargerCoordinates;
-        browseParameters.q = 'Solar Charger Location';
-      } else {
-        console.error("Failed to read solar charger coordinates from CSV file.");
-        return;
-      }
-    } catch (error) {
-      console.error("Error reading solar charger coordinates from CSV file:", error);
-      return;
-    }
-  }
-
   else {
-    var geocoder1 = platform.getSearchService(),
-      browseParametersEV = {
-      q: 'EV Charging Station',
-      at: at,
-      limit: 10,
-      radius: 8560
-    };
-    
-    var geocoder1 = platform.getSearchService(),
-      browseParametersBike = {
-      q: 'Bicycle Sharing Location',
-      at: at,
-      limit: 10,
-      radius: 8560
-    };
-
-    var geocoder1 = platform.getSearchService(),
-      browseParametersCharger = {
-      q: 'Solar Charger Location',
-      at: at,
-      limit: 10,
-      radius: 8560
-    };
-
-    geocoder.discover(
-      browseParametersEV,
-      onSuccess,
-      onError
-    );
-
-    geocoder1.discover(
-      browseParametersBike,
-      onSuccess,
-      onError
-    );
-
-    geocoder1.discover(
-      browseParametersCharger,
-      onSuccess,
-      onError
-    );
-
-    return;
+    browseParameters.q = 'EV Charging Station';
   }
 
   geocoder.discover(
@@ -80,7 +22,7 @@ async function browseGeocode(platform, at, station) {
     onSuccess,
     onError
   );
-}
+  }
   
   // Shows cities to be selected from
   const cities = [
@@ -96,11 +38,6 @@ async function browseGeocode(platform, at, station) {
 
   // Show what information/stations are displayed 
   const stations = [
-    {
-      id: 0,
-      value: "ALL",
-      name: "All Stations"
-    },
     {
       id: 0,
       value: "EV",
@@ -146,8 +83,9 @@ async function browseGeocode(platform, at, station) {
     
     function eventCities(){
       clearMap();
-      stationIndex = this.selectedIndex;
-      browseGeocode(platform, "41.87188,-87.64925", stations[stationIndex].value);
+      citiesIndex = this.selectedIndex;
+      var selectedStation = document.getElementById("cityDropDown").value;
+      browseGeocode(platform, cities[citiesIndex].position, selectedStation);
     }
     
     document.getElementById("cityDropDown").onchange = eventCities;
@@ -175,7 +113,7 @@ async function browseGeocode(platform, at, station) {
 
   //Boilerplate map initialization code starts below:
   var platform = new H.service.Platform({
-    apikey: 'DTz9Ao3p7GyFqeg0XAIma6xw0RKfyilQHzpKdptHYfA'
+    apikey: 'AMrRgJ0R-FXbc0Z8hyI2TyL3ZoPelf3QoFg53eltY1I'
   });
   var defaultLayers = platform.createDefaultLayers();
   
@@ -242,8 +180,13 @@ async function browseGeocode(platform, at, station) {
           content =  '<strong style="font-size: large;">' + location.title  + '</strong></br>';
           position = location.position;
   
+        content += '<strong>houseNumber:</strong> ' + location.address.houseNumber + '<br/>';
         content += '<strong>street:</strong> '  + location.address.label + '<br/>';
         content += '<strong>district:</strong> '  + location.address.district + '<br/>';
+        content += '<strong>city:</strong> ' + location.address.city + '<br/>';
+       // content += '<strong>postalCode:</strong> ' + location.address.postalCode + '<br/>';
+       // content += '<strong>county:</strong> ' + location.address.county + '<br/>';
+      //  content += '<strong>country:</strong> ' + location.address.countryName + '<br/>';
         content += '<strong>position:</strong> ' +
           Math.abs(position.lat.toFixed(4)) + ((position.lat > 0) ? 'N' : 'S') +
           ' ' + Math.abs(position.lng.toFixed(4)) + ((position.lng > 0) ? 'E' : 'W') + '<br/>';
@@ -291,62 +234,3 @@ async function browseGeocode(platform, at, station) {
   
   browseGeocode(platform, "41.87188,-87.64925");
   createUIforDropdown();
-
-
-  // ##################################################
-// Function to asynchronously read coordinates for a specific station from CSV file
-function readCoordinatesFromCSV(filename, station) {
-  return new Promise((resolve, reject) => {
-    const csvFile = 'location.csv';
-    const stationCoordinates = [];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const csvData = event.target.result;
-      const lines = csvData.split('\n');
-      let found = false;
-      for (const line of lines) {
-        const [name, latitude, longitude] = line.split(',');
-        if (name && latitude && longitude) {
-          if (name === station) {
-            stationCoordinates.push({ latitude: parseFloat(latitude), longitude: parseFloat(longitude) });
-            found = true;
-          } else if (found) {
-            break; // Stop reading after finding the station and its coordinates
-          }
-        }
-      }
-      if (stationCoordinates.length > 0) {
-        resolve(`${stationCoordinates[0].latitude},${stationCoordinates[0].longitude}`);
-      } else {
-        reject("Station not found in CSV file.");
-      }
-    };
-    reader.onerror = (error) => {
-      reject(error);
-    };
-    reader.readAsText(csvFile);
-  });
-
-
-  async function addLocationsFromCSVToMap(station) {
-    try {
-      const coordinatesString = await readCoordinatesFromCSV('location.csv', station);
-      const [latitude, longitude] = coordinatesString.split(',');
-      const location = {
-        position: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
-        title: station
-      };
-  
-      addLocationsToMap([location]);
-    } catch (error) {
-      console.error(error);
-      // Handle error, e.g., display an alert or log a message
-    }
-  }
-  
-  // Example usage
-  // const stationName = ''; // Replace with the actual station name
-  // addLocationsFromCSVToMap(stationName);
-
-
-}
