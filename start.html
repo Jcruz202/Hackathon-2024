@@ -6,60 +6,78 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Start Screen</title>
         <link rel="stylesheet" href="style.css">
-        <!-- <script src="https://kit.fontawesome.com/533356cf2f.js" crossorigin="anonymous"></script> -->
+        <script src="https://kit.fontawesome.com/533356cf2f.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
         <div class="video-container">
             <video autoplay muted loop id="earth-background" alt="background">
-                <!-- <source src="earth-background.mp4" type="video/mp4">
-                Your browser does not support the video tag. -->
+                <source src="earth-background.mp4" type="video/mp4">
+                <!-- Your browser does not support the video tag. -->
             </video>
         </div>
 
         <div id="start-screen">
-            <header id="header">
-                <h1 id="title">
-                    GREEN STATIONS           
-                </h1>
-            </header>
-    
-                <div>
-                    <h2 id="mission-text">
-                        Our Mission
-                    </h2>
-                    <p id="idea"><span class="idea-span">
-                        We are creating a website that will provide UIC students with energy effieicent
-                        locations throughout the east campus. In order to strive for a cleaner community
-                        and a healthier planet, everyone must do their part. It begins with little steps in order to cause a greater impact.
-                        As you begin to build these little habits such as recycling and using clean energy, the change is iminent.
-                        It is the commencement of a greener society where as a community we strive to improve our planet 
-                        and give the future generation a better world to live ine This app will locate stations such as recycling bins,
-                        solar charging station, bike stations, and EV chargers
-                    </span>
-                    </p>
-                </div>
-                
-                <a href="main.html" id="arrow-btn">
-                    <img  src="arrow.png" alt="open-map">
-                </a>
+            <img id="logo" src="logo.png">
+            
+            <div>
+                <h2 id="mission-text">
+                    OUR MISSION
+                </h2>
+                <p id="idea"><span class="idea-span">
+                    We are creating a website that will provide UIC students with energy effieicent
+                    locations throughout the east campus. In order to strive for a cleaner community
+                    and a healthier planet, everyone must do their part. It begins with little steps in order to cause a greater impact.
+                    As you begin to build these little habits such as recycling and using clean energy, the change is iminent.
+                    It is the commencement of a greener society where as a community we strive to improve our planet 
+                    and give the future generation a better world to live in.<br> This app will locate stations such as recycling bins,
+                    solar charging station, bike stations, and EV chargers.
+                </span>
+                </p>
+            </div>
+            
+            <a href="main.html" id="arrow-btn">
+                <img  src="arrow.png" alt="open-map">
+            </a>
         </div>
         
             <!-- "About Us" section -->
-        <div class="about-us">
-            <section id="about-section">
-                <h2 id="text-about-us">About Us</h2>
-                <div class="image-container">
-                    <div class="circular-mask">
-                      <img id="current-image" src="juan_cruz.jpg" alt="Image 1">
-                    </div>
-                    <div class="text-box">Juan Cruz</div>
-                  </div>
-                  
-                  <button id="next-button" onclick="nextImage()">Next</button>
-            </section>
-        </div>
-        
+        <div id="about-us">
+            <header id="header-about">
+                <h2 id="text-about-us">
+                    About Us
+                </h2>
+            </header>
+
+            <div class="image-container">
+                <div class="circular-mask">
+                    <img id="current-image" src="Juan.png" alt="Image 1">
+                </div>
+
+                <div class="text-box">Juan Cruz</div>
+
+                </div>
+                
+                <button id="next-button" onclick="nextImage()">Next</button>
+            </div>
+
+        <!-- JavaScript Section -->
+        <script>
+            var images = ["Juan.png", "Charlie.png", "Steven.png", "Jovany.png", "Braulio.png"];
+            var names = ["Juan Cruz", "Charlie Esquivel", "Steven Reveles", "Jovany Martinez", "Braulio Duran"];
+            var currentIndex = 0;
+            var imageElement = document.getElementById('current-image');
+            var textElement = document.querySelector('.text-box');
+          
+            function nextImage() {
+              currentIndex = (currentIndex + 1) % images.length;
+              imageElement.classList.add('rotate'); // Add the 'rotate' class
+              setTimeout(function() {
+                imageElement.src = images[currentIndex];
+                textElement.textContent = names[currentIndex]; // Update the text
+                imageElement.classList.remove('rotate'); // Remove the 'rotate' class after a short delay
+              }, 500); // Change the image after the transition (0.5s)
+            }
+          </script>
     </body>
-    
 </html>

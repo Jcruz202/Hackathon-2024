@@ -1,29 +1,24 @@
-function browseGeocode(platform, at) {
-  var geocoder = platform.getSearchService(),
-      browseParametersEV = {
-        q: 'EV Charging Station',
-        at: at,
-        limit: 10,
-        radius: 5280
-      };
-      
+var defaultStation = 'EV';
 
-    var geocoder1 = platform.getSearchService(),
-      browseParametersBike = {
-        q: 'Bicycle Sharing Location',
-        at: at,
-        limit: 30,
-        radius: 16000
-      };
+function browseGeocode(platform, at, station) {
+  var geocoder = platform.getSearchService();
+  var browseParameters = {
+    at: at,
+    limit: 10,
+    radius: 8560
+  };
+
+  if (station == 'EV') {
+    browseParameters.q = 'EV Charging Station';
+  } else if (station == 'Bike') {
+    browseParameters.q = 'Bicycle Sharing Location';
+  }
+  else {
+    browseParameters.q = 'EV Charging Station';
+  }
 
   geocoder.discover(
-    browseParametersEV,
-    onSuccess,
-    onError
-  );
-
-  geocoder1.discover(
-    browseParametersBike,
+    browseParameters,
     onSuccess,
     onError
   );
@@ -40,6 +35,31 @@ function browseGeocode(platform, at) {
         mapCenter: {lat:41.87188, lng:-87.64925}
     }
   ]
+
+  // Show what information/stations are displayed 
+  const stations = [
+    {
+      id: 0,
+      value: "EV",
+      name: "EV Charging Stations"
+    },
+    {
+      id: 1,
+      value: "Bike",
+      name: "Divvy Stations"
+    },
+    {
+      id: 2,
+      value: "Charger",
+      name: "Solar Charging Stations"
+    },
+    {
+      id: 3,
+      value: "Garbage",
+      name: "Recycling Location"
+    }
+
+  ]
   
   function createUIforDropdown() {
     
@@ -51,20 +71,21 @@ function browseGeocode(platform, at) {
     cityDropdown.setAttribute("id", "cityDropDown");
     discoveryTitleContainer.appendChild(cityDropdown);
   
-    for (var i = 0; i < cities.length; i++) {
+    for (var i = 0; i < stations.length; i++) {
       var option = document.createElement("option");
-      option.value = cities[i].value;
-      option.text = cities[i].name;
+      option.value = stations[i].value;
+      option.text = stations[i].name;
       document.getElementById("cityDropDown").appendChild(option);
     }
-  
+
     var space = document.createElement('p');
     discoveryTitleContainer.appendChild(space);
     
     function eventCities(){
       clearMap();
       citiesIndex = this.selectedIndex;
-      browseGeocode(platform, cities[citiesIndex].position)
+      var selectedStation = document.getElementById("cityDropDown").value;
+      browseGeocode(platform, cities[citiesIndex].position, selectedStation);
     }
     
     document.getElementById("cityDropDown").onchange = eventCities;
@@ -88,10 +109,11 @@ function browseGeocode(platform, at) {
   }
   
   var citiesIndex = 0;
+  var stationIndex = 0;
 
   //Boilerplate map initialization code starts below:
   var platform = new H.service.Platform({
-    apikey: '_GgeBaCx0yec85fdshFNVEytBx03dLFjWzIHHSod7pk'
+    apikey: 'DTz9Ao3p7GyFqeg0XAIma6xw0RKfyilQHzpKdptHYfA'
   });
   var defaultLayers = platform.createDefaultLayers();
   
@@ -162,9 +184,9 @@ function browseGeocode(platform, at) {
         content += '<strong>street:</strong> '  + location.address.label + '<br/>';
         content += '<strong>district:</strong> '  + location.address.district + '<br/>';
         content += '<strong>city:</strong> ' + location.address.city + '<br/>';
-        content += '<strong>postalCode:</strong> ' + location.address.postalCode + '<br/>';
-        content += '<strong>county:</strong> ' + location.address.county + '<br/>';
-        content += '<strong>country:</strong> ' + location.address.countryName + '<br/>';
+       // content += '<strong>postalCode:</strong> ' + location.address.postalCode + '<br/>';
+       // content += '<strong>county:</strong> ' + location.address.county + '<br/>';
+      //  content += '<strong>country:</strong> ' + location.address.countryName + '<br/>';
         content += '<strong>position:</strong> ' +
           Math.abs(position.lat.toFixed(4)) + ((position.lat > 0) ? 'N' : 'S') +
           ' ' + Math.abs(position.lng.toFixed(4)) + ((position.lng > 0) ? 'E' : 'W') + '<br/>';

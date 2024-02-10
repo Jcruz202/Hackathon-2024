@@ -67,7 +67,23 @@
 
 <button id="next-button" onclick="nextImage()">Next</button>
 
+<!-- <script>
+  var images = ["juan_cruz.jpg", "charlie.jpg", "steven.jpg", "jovany.jpg", "Braulio.jpg"];
+  var names = ["Juan Cruz", "Charlie", "Steven", "Jovany", "Braulio"];
+  var currentIndex = 0;
+  var imageElement = document.getElementById('current-image');
+  var textElement = document.querySelector('.text-box');
 
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    imageElement.classList.add('rotate'); // Add the 'rotate' class
+    setTimeout(function() {
+      imageElement.src = images[currentIndex];
+      textElement.textContent = names[currentIndex]; // Update the text
+      imageElement.classList.remove('rotate'); // Remove the 'rotate' class after a short delay
+    }, 500); // Change the image after the transition (0.5s)
+  }
+</script> -->
 
 </body>
 </html>
