@@ -1,20 +1,82 @@
-var defaultStation = 'EV';
-
-function browseGeocode(platform, at, station) {
+async function browseGeocode(platform, at, station) {
   var geocoder = platform.getSearchService();
   var browseParameters = {
     at: at,
-    limit: 10,
+    limit: 15,
     radius: 8560
   };
 
   if (station == 'EV') {
     browseParameters.q = 'EV Charging Station';
-  } else if (station == 'Bike') {
+  } 
+  else if (station == 'Bike') {
     browseParameters.q = 'Bicycle Sharing Location';
   }
+  else if (station == 'Charger') {
+    browseParameters.q = 'Solar Station';
+  }
+  else if (station == 'Garbage') {
+    browseParameters.q = 'Recycling Location';
+  }
   else {
-    browseParameters.q = 'EV Charging Station';
+    var geocoder1 = platform.getSearchService(),
+      browseParametersEV = {
+      q: 'EV Charging Station',
+      at: at,
+      limit: 15,
+      radius: 8560
+    };
+    
+    var geocoder2 = platform.getSearchService(),
+      browseParametersBike = {
+      q: 'Bicycle Sharing Location',
+      at: at,
+      limit: 15,
+      radius: 8560
+    };
+
+    var geocoder3 = platform.getSearchService(),
+      browseParametersSolar = {
+      q: 'Solar Station',
+      at: at,
+      limit: 15,
+      radius: 8560
+    };
+
+    var geocoder4 = platform.getSearchService(),
+      browseParametersReycle = {
+      q: 'Recycling Location',
+      at: at,
+      limit: 15,
+      radius: 8560
+    };
+
+
+    geocoder1.discover(
+      browseParametersEV,
+      onSuccess,
+      onError
+    );
+
+    geocoder2.discover(
+      browseParametersBike,
+      onSuccess,
+      onError
+    );
+
+    geocoder3.discover(
+      browseParametersSolar,
+      onSuccess,
+      onError
+    );
+
+    geocoder4.discover(
+      browseParametersReycle,
+      onSuccess,
+      onError
+    );
+
+    return;
   }
 
   geocoder.discover(
@@ -22,7 +84,7 @@ function browseGeocode(platform, at, station) {
     onSuccess,
     onError
   );
-  }
+}
   
   // Shows cities to be selected from
   const cities = [
@@ -40,25 +102,29 @@ function browseGeocode(platform, at, station) {
   const stations = [
     {
       id: 0,
+      value: "ALL",
+      name: "All Stations"
+    },
+    {
+      id: 1,
       value: "EV",
       name: "EV Charging Stations"
     },
     {
-      id: 1,
+      id: 2,
       value: "Bike",
       name: "Divvy Stations"
     },
     {
-      id: 2,
+      id: 3,
       value: "Charger",
       name: "Solar Charging Stations"
     },
     {
-      id: 3,
+      id: 4,
       value: "Garbage",
       name: "Recycling Location"
     }
-
   ]
   
   function createUIforDropdown() {
@@ -83,9 +149,8 @@ function browseGeocode(platform, at, station) {
     
     function eventCities(){
       clearMap();
-      citiesIndex = this.selectedIndex;
-      var selectedStation = document.getElementById("cityDropDown").value;
-      browseGeocode(platform, cities[citiesIndex].position, selectedStation);
+      stationIndex = this.selectedIndex;
+      browseGeocode(platform, "41.87188,-87.64925", stations[stationIndex].value);
     }
     
     document.getElementById("cityDropDown").onchange = eventCities;
@@ -113,7 +178,7 @@ function browseGeocode(platform, at, station) {
 
   //Boilerplate map initialization code starts below:
   var platform = new H.service.Platform({
-    apikey: 'AMrRgJ0R-FXbc0Z8hyI2TyL3ZoPelf3QoFg53eltY1I'
+    apikey: '8guhx53t1MqTSrC8Td3ZUT-4NjFd-jbhCHfTK4hUJ7o'
   });
   var defaultLayers = platform.createDefaultLayers();
   
@@ -184,9 +249,6 @@ function browseGeocode(platform, at, station) {
         content += '<strong>street:</strong> '  + location.address.label + '<br/>';
         content += '<strong>district:</strong> '  + location.address.district + '<br/>';
         content += '<strong>city:</strong> ' + location.address.city + '<br/>';
-       // content += '<strong>postalCode:</strong> ' + location.address.postalCode + '<br/>';
-       // content += '<strong>county:</strong> ' + location.address.county + '<br/>';
-      //  content += '<strong>country:</strong> ' + location.address.countryName + '<br/>';
         content += '<strong>position:</strong> ' +
           Math.abs(position.lat.toFixed(4)) + ((position.lat > 0) ? 'N' : 'S') +
           ' ' + Math.abs(position.lng.toFixed(4)) + ((position.lng > 0) ? 'E' : 'W') + '<br/>';
